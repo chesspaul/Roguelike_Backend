@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema({
   timestamps: true
 });
 
-// 🔥 Mongoose 8-compatible pre-save hook
+// Mongoose 8-compatible pre-save hook
 userSchema.pre('save', async function () {
   if (!this.isModified('password')) return;
 
