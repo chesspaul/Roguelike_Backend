@@ -78,8 +78,4 @@ const getUnlockedItems = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = {
-  getProgress,
-  saveProgress,
-  getUnlockedItems,
-};
+module.exports = { getProgress, saveProgress, getUnlockedItems };
