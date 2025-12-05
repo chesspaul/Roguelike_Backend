@@ -4,12 +4,12 @@ const router = express.Router();
 const { getPartidas, getPartidaById, createPartida, updatePartida, deletePartida } = require("../controllers/partidasController");
 
 router.route("/")
-  .get(getPartidas)
-  .post(createPartida);
+router.get(getPartidas)
+router.post(createPartida);
 
 router.route("/:id")
-  .get(getPartidaById)
-  .put(updatePartida)
-  .delete(deletePartida);
+router.get(getPartidaById)
+router.put(updatePartida)
+router.delete(deletePartida);
 
 module.exports = router;

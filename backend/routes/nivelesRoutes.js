@@ -3,12 +3,12 @@ const router = express.Router();
 const { getNiveles, getNivelById, createNivel, updateNivel, deleteNivel } = require("../controllers/nivelesController");
 
 router.route("/")
-  .get(getNiveles)
-  .post(createNivel);
+router.get(getNiveles)
+router.post(createNivel);
 
 router.route("/:id")
-  .get(getNivelById)
-  .put(updateNivel)
-  .delete(deleteNivel);
+router.get(getNivelById)
+router.put(updateNivel)
+router.delete(deleteNivel);
 
 module.exports = router;
