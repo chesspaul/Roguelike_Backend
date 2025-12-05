@@ -1,11 +1,12 @@
 {
   "name": "roguelike_backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend del roguelike para autenticación y guardado de progreso",
+  "main": "backend/server.js",
+  "type": "commonjs",
   "scripts": {
-    "star":"node backend/server.js",
-    "server":"nodemon backend/server.js"
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
   },
   "keywords": [],
   "author": "",

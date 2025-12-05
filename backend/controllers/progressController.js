@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Progress = require("../models/progressModel");
 
-// GET /api/progress - obtiene el progreso actual del usuario
+// progreso general
 const getProgress = asyncHandler(async (req, res) => {
   let progress = await Progress.findOne({ user: req.user.id });
 
@@ -10,54 +10,76 @@ const getProgress = asyncHandler(async (req, res) => {
     progress = await Progress.create({ user: req.user.id });
   }
 
-  // Solo regresamos los campos importantes
   res.status(200).json({
     user: progress.user,
     level: progress.level,
     experience: progress.experience,
     items: progress.items,
+    objetosDesbloqueados: progress.objetosDesbloqueados,
     fechaUltimoGuardado: progress.fechaUltimoGuardado,
   });
 });
 
-// POST /api/progress - guarda / actualiza el progreso del usuario
+// POST /api/progress  
 const saveProgress = asyncHandler(async (req, res) => {
   const { level, experience, items } = req.body;
 
-  // Solo actualizamos los campos que nos interesan
-  const updateData = {
-    fechaUltimoGuardado: new Date(),
-  };
+  // Buscar (o crear) el progreso del usuario
+  let progress = await Progress.findOne({ user: req.user.id });
 
+  if (!progress) {
+    progress = new Progress({ user: req.user.id });
+  }
+
+  // Actualizar campos de progreso actual
   if (level !== undefined) {
-    updateData.level = level;
+    progress.level = level;
   }
 
   if (experience !== undefined) {
-    updateData.experience = experience;
+    progress.experience = experience;
   }
 
-  if (items !== undefined) {
-    updateData.items = items;
+  if (Array.isArray(items)) {
+    // items actuales de la partida
+    progress.items = items;
+
+    //Fusionar items con la colección  de objetosDesbloqueados
+    const setObjetos = new Set(progress.objetosDesbloqueados || []);
+    items.forEach((item) => setObjetos.add(item));
+    progress.objetosDesbloqueados = Array.from(setObjetos);
   }
 
-  const progress = await Progress.findOneAndUpdate(
-    { user: req.user.id },
-    updateData,
-    { new: true, upsert: true }
-  );
+  progress.fechaUltimoGuardado = new Date();
 
-  // De nuevo, respondemos solo con lo importante
+  await progress.save();
+
   res.status(200).json({
     user: progress.user,
     level: progress.level,
     experience: progress.experience,
     items: progress.items,
+    objetosDesbloqueados: progress.objetosDesbloqueados,
     fechaUltimoGuardado: progress.fechaUltimoGuardado,
+  });
+});
+
+// solo los objetos desbloqueados
+const getUnlockedItems = asyncHandler(async (req, res) => {
+  let progress = await Progress.findOne({ user: req.user.id });
+
+  if (!progress) {
+    progress = await Progress.create({ user: req.user.id });
+  }
+
+  res.status(200).json({
+    user: progress.user,
+    objetosDesbloqueados: progress.objetosDesbloqueados,
   });
 });
 
 module.exports = {
   getProgress,
   saveProgress,
+  getUnlockedItems,
 };

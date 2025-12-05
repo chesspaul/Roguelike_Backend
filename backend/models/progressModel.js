@@ -6,6 +6,7 @@ const progressSchema = mongoose.Schema({
     ref: 'User',
     required: true
   },
+  // Progreso de la partida actual
   level: {
     type: Number,
     default: 1
@@ -14,9 +15,17 @@ const progressSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
-  items: [{
-    type: String
-  }],
+  items: [
+    {
+      type: String
+    }
+  ],
+  // Historial de todo lo que el jugador ha desbloqueado
+  objetosDesbloqueados: [
+    {
+      type: String
+    }
+  ],
   fechaUltimoGuardado: {
     type: Date,
     default: Date.now
@@ -24,6 +33,5 @@ const progressSchema = mongoose.Schema({
 }, {
   timestamps: true
 });
-
 
 module.exports = mongoose.model('Progress', progressSchema);
