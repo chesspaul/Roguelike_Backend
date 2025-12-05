@@ -6,21 +6,23 @@ const progressSchema = mongoose.Schema({
     ref: 'User',
     required: true
   },
-  // Progreso de la partida actual
+
   level: {
     type: Number,
     default: 1
   },
+  
   experience: {
     type: Number,
     default: 0
   },
+
   items: [
     {
       type: String
     }
   ],
-  // Historial de todo lo que el jugador ha desbloqueado
+
   objetosDesbloqueados: [
     {
       type: String
