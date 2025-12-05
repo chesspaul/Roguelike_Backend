@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Nivel = require("../models/nivelModel");
 
-//OBTEN
+
 const getNiveles = asyncHandler(async (req, res) => {
   const niveles = await Nivel.find().populate('enemigos jefe');
   res.status(200).json(niveles);

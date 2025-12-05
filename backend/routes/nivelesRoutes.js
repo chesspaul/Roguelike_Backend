@@ -1,12 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getNiveles,
-  getNivelById,
-  createNivel,
-  updateNivel,
-  deleteNivel,
-} = require("../controllers/nivelesController");
+const { getNiveles, getNivelById, createNivel, updateNivel, deleteNivel } = require("../controllers/nivelesController");
 
 router.route("/")
   .get(getNiveles)

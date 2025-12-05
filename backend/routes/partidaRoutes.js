@@ -1,14 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getPartidas,
-  getPartidaById,
-  createPartida,
-  updatePartida,
-  deletePartida,
-} = require("../controllers/partidasController");
 
-// Rutas protegidas por auth: lo asumo porque usas req.user.id
+const { getPartidas, getPartidaById, createPartida, updatePartida, deletePartida } = require("../controllers/partidasController");
+
 router.route("/")
   .get(getPartidas)
   .post(createPartida);
